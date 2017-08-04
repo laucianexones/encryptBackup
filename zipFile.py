@@ -1,12 +1,14 @@
 import os
 import zipfile
 
-path =  r'C:\Users\kc\Desktop\_tmp\rootFolder'
+path = r'C:\Users\kc\Desktop\_tmp\Saved Pictures'
 
-def zipdir(path):
+def zipdir(path, ziph):
   for root, dirs, files in os.walk(path):
-    print dirs
+    for file in files:
+      ziph.write(os.path.join(root,file))
 
 if __name__ == '__main__':
-  #zipf = zipfile.Zipfile('test.zip','w',zipfile.ZIP_DEFLATED)
-  zipdir(path)
+  zipf = zipfile.ZipFile('test.zip', 'w', zipfile.ZIP_DEFLATED)
+  zipdir(path, zipf)
+  zipf.close()
