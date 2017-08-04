@@ -4,52 +4,57 @@ import zipfile
 
 path = r'C:\Users\kcumhurx\Desktop\na training'
 target_file = '%s.zip' % path
+pwd = b'kerem'
+print type(pwd)
+LIMIT_SIZE = 10485760 # 10MB
 
 zipObject = zipfile.ZipFile(target_file,'w',zipfile.ZIP_DEFLATED)
+zipObject.setpassword(pwd)
 
-def zipdir(path):
+def convert_bytes(num):
+    """
+    this function will convert bytes to MB.... GB... etc
+    """
+    for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
+        if num < 1024.0:
+            return "%3.1f %s" % (num, x)
+        num /= 1024.0
+
+num = 0
+def zipdir(path, zipObject, num):
     for root, dirs, files in os.walk(path):
         for file in files:
             fullpath_filename = os.path.join(root, file)
             #print fullpath_filename
             abs_filename = fullpath_filename.replace(path, '')
             #print abs_filename
-                       
-            zipObject.write(fullpath_filename, abs_filename)
 
+            print type(zipObject)            
+            file_size = zipObject.fp.tell()
+            if not file_size >= LIMIT_SIZE:
+                zipObject.write(fullpath_filename, abs_filename)
+                print '%s compressed' % abs_filename
+                print zipObject.fp.tell()
+                print '\n'
+            else:
+                print 'new archieve file'
+                zipObject.close()
+                num += 1
+                zipObject = zipfile.ZipFile('%s_%s.zip' % (path, num), 'w', zipfile.ZIP_DEFLATED)
+                zipObject.write(fullpath_filename, abs_filename)
+                print '%s compressed' % abs_filename
+                print zipObject.fp.tell()
+                print '\n'
+
+    
+    file_size = zipObject.fp.tell()
+    file_size_human_readable = convert_bytes(file_size)
+    
+    print 'size is: ', file_size_human_readable
     zipObject.close()
     print "%s created" % target_file
     
 
-zipdir(path)
 
-"""
-import os
-import stat
-import zipfile
+zipdir(path, zipObject, num)
 
-archive_num = 1
-outfile = zipfile.ZipFile('/zips/archive%s.zip' % archive_num, "w")
-zsize = 0
-
-for full_name in filelist:
-    full_name_path = os.path.join(full_name, full_path)
-    if outfile.fp.tell() > 15728640: # 15mb
-        outfile.close()
-        archive_num += 1
-        outfile = zipfile.ZipFile('/zips/archive%s.zip' % archive_num, "w")
-
-    outfile.write(full_name_path,full_name_path,zipfile.ZIP_DEFLATED)
-
-
-There is still a couple of "issues":
-
-1) Files larger than 15Mb may not be able to be compressed to fall below the limit.
-
-2) If you are near the 15Mb limit and the next file is very large you have the
-same problem.
-
-
--Larry
-
-"""
