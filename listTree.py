@@ -1,4 +1,14 @@
 import os
+import platform
+import sys
+
+print platform.platform()
+
+print sys.getfilesystemencoding()
+print sys.getdefaultencoding()
+print sys.stdout.encoding
+
+
 """
 C:\Users\kc\Documents\Python-Projects\encryptBackup>python listTree_test.py
 Saved Pictures/
@@ -14,6 +24,8 @@ Saved Pictures/
 
 def file_size(file_path):
     #print os.path.dirname(file_path)
+    print '%s has type %s' % (file_path, type(file_path))
+
     if not os.path.isfile(file_path):
         print "file %s not found" % file_path
         exit(1)
@@ -40,8 +52,13 @@ def list_files(startpath):
         print('{}{}/'.format(indent, os.path.basename(root)))
         subindent = ' ' * 4 * (level + 1)
         for f in files:
+            print f, repr(f)
+            print type(f)
+            f = f.decode('cp850').encode('utf-8')
+            print f, repr(f)
+            print type(f)
             print('{}{} - {}'.format(subindent, f,file_size(os.path.join(root,f))))
 
-startpath = r'C:\Users\kc\Desktop\_tmp\Saved Pictures'
-
+#startpath = r'/mnt/c/Users/kc/Desktop/testFolder'
+startpath = r'C:\\Users\\kc\\Desktop\\testFolder'
 list_files(startpath)
