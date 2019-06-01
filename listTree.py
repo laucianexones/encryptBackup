@@ -2,11 +2,10 @@ import os
 import platform
 import sys
 
-print platform.platform()
-
+""" print platform.platform()
 print sys.getfilesystemencoding()
 print sys.getdefaultencoding()
-print sys.stdout.encoding
+print sys.stdout.encoding """
 
 
 """
@@ -22,9 +21,13 @@ Saved Pictures/
 
 """
 
+def getFilesize(filename):
+    size = os.stat(filename).st_size
+    return size
+
 def file_size(file_path):
     #print os.path.dirname(file_path)
-    print '%s has type %s' % (file_path, type(file_path))
+    #print '%s has type %s' % (file_path, type(file_path))
 
     if not os.path.isfile(file_path):
         print "file %s not found" % file_path
@@ -44,6 +47,7 @@ def convert_bytes(num):
 
 
 def list_files(startpath):
+    print startpath
     for root, dirs, files in os.walk(startpath):
         level = root.replace(startpath, '').count(os.sep)
         #print 'level is ', level
@@ -51,14 +55,15 @@ def list_files(startpath):
         #print "indent: ", len(indent)
         print('{}{}/'.format(indent, os.path.basename(root)))
         subindent = ' ' * 4 * (level + 1)
-        for f in files:
-            print f, repr(f)
-            print type(f)
-            f = f.decode('cp850').encode('utf-8')
-            print f, repr(f)
-            print type(f)
-            print('{}{} - {}'.format(subindent, f,file_size(os.path.join(root,f))))
+        for d in dirs:
+            #print d
+            print('{}{}'.format(subindent,os.path.join(root,d)))
+        # for f in files:
+        #     #print f, repr(f)
+        #     #f = f.decode('cp850').encode('utf-8')
+        #     print('{}{} - {}'.format(subindent, f,file_size(os.path.join(root,f))))
+        #     #print 'leaving subfolder'
 
-#startpath = r'/mnt/c/Users/kc/Desktop/testFolder'
-startpath = r'C:\\Users\\kc\\Desktop\\testFolder'
+startpath = r'/Users/kerem/Desktop/testFolder2/'
+#startpath = r'C:\\Users\\kc\\Desktop\\testFolder'
 list_files(startpath)
