@@ -113,6 +113,9 @@ def scan_filesystem(startpath,tree_depth):
         # get the number of subfolders in the current folders
         num_of_subfolders = len(dirs)
 
+        #TODO fix the the outout of the pretty print
+        weight = 0
+
         # print the current dir and related information 
         # use indent var. in the formatting to show the depth of the folder
         if pretty_print:

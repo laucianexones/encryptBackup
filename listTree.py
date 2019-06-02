@@ -8,7 +8,7 @@ print sys.getdefaultencoding()
 print sys.stdout.encoding """
 
 
-"""
+'''
 C:\Users\kc\Documents\Python-Projects\encryptBackup>python listTree_test.py
 Saved Pictures/
     20170131_081744.jpg - 2.9 MB
@@ -19,7 +19,7 @@ Saved Pictures/
         20170131_081735.jpg - 3.1 MB
         20170131_081743.jpg - 3.0 MB
 
-"""
+'''
 
 def getFilesize(filename):
     size = os.stat(filename).st_size
