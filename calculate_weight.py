@@ -2,6 +2,7 @@ import os,sys
 import pprint
 import operator
 overall_dict = {}
+top_folders = []
 #TODO enable parameter for pretty print option
 pretty_print = False
 
@@ -59,10 +60,20 @@ def print_dict_sorted(dict):
         #TODO remove parent information & calculate weight
         #subfolder number relevant for weight ??
 
+        values_for_weight = [sizeGB,num_of_files,num_of_subfolders]
+        for i in values_for_weight:
+            if i == 0:
+                ind = values_for_weight.index(i)
+                values_for_weight[ind] = 1
+
+        weight = values_for_weight[0] * values_for_weight[1] * values_for_weight[2]
+
+
+        top_folders.append([weight,sizeGB,num_of_files,num_of_subfolders,folder_path])
         if level > l_level:
             print '--'
             l_level = level
-        print 'sizeGB:%s\t#_files:%s\t#_subfolders:%s\tlevel:%s\t\tpath:%s' % (sizeGB,num_of_files,num_of_subfolders,level,folder_path)
+        print 'WeightScore:%s\t\tsizeGB:%s\t#_files:%s\t#_subfolders:%s\tlevel:%s\t\tpath:%s' % (weight,sizeGB,num_of_files,num_of_subfolders,level,folder_path)
 
 
 
@@ -141,3 +152,11 @@ if __name__ == '__main__':
 
     recreate_database(tree_depth)
     print_dict_sorted(overall_dict)
+
+    print '--'*20
+    print '--'*20
+    print 'printing the top-10 weighted folders..'
+    print 'weight,sizeGB,#_files,#_subfolders'
+    for i in sorted(top_folders)[::-1][:10]:
+        print i
+    
