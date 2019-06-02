@@ -107,10 +107,8 @@ def scan_filesystem(startpath,tree_depth):
         # print 'parent :' , parent
 
         # this for-loop iterates over the current directory
-        # checks the size of each file #TODO check for other filetypes like links,hardlinks etc..
         # saves the total size of the folder to folder_size_sum
         # it also counts the number of files in the folder
-        # using these 2 variables a weight is created
         folder_size_sum = 0        
         for f in files:
             f_fullpath = os.path.join(folder_path,f)
@@ -126,7 +124,6 @@ def scan_filesystem(startpath,tree_depth):
 
         #TODO fix the the outout of the pretty print
         weight = 0
-
         # print the current dir and related information 
         # use indent var. in the formatting to show the depth of the folder
         if pretty_print:
@@ -145,8 +142,7 @@ if __name__ == '__main__':
         exit(1)
     startpath = sys.argv[1]
     if check_startpath(startpath):
-        tree_depth = 0
-        tree_depth = scan_filesystem(startpath,tree_depth)
+        tree_depth = scan_filesystem(startpath,tree_depth=0)
     else:
         print '%s is not a valid directory path' % startpath
 
