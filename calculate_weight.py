@@ -2,6 +2,16 @@ import os,sys
 import pprint
 #import operator
 
+#TODO
+'''
+re-write the whole code
+use topdown, skip symlink parameters of os.walker
+https://gist.github.com/samuelsh/a8be5bc93fcd7ff256c9
+https://www.tutorialspoint.com/python3/os_walk.htm
+use the multiprocessing module to parallelize
+'''
+
+
 #TODO enable parameter for pretty print option
 pretty_print = False
 
@@ -152,3 +162,5 @@ if __name__ == '__main__':
     
     #print the tree by levels & top-10 weighted directories
     print_dict_sorted(fs_tree,top_folders=[])
+
+
